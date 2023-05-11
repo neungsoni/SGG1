@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+    .error {
+      color: #bd2130;
+    }
+  </style>
+</th:block>
+
+<div layout:fragment="content">
+
+  <h1 class="mt-4">글 작성</h1>
+
+  <form th:action="@{/qna/register}" th:method="post">
+    <div class="form-group">
+      <label>제목</label>
+      <input type="text" class="form-control" name="title" placeholder="제목을 입력하세요.">
+    </div>
+    <div class="form-group">
+      <label>내용</label>
+      <textarea class="form-control" rows="5" name="content" placeholder="내용을 입력하세요."></textarea>
+    </div>
+    <div class="form-group">
+      <label>작성자</label>
+      <input type="text" class="form-control" name="writer" placeholder="작성자 이름을 입력하세요.">
+    </div>
+
+    <button type="submit" class="btn btn-primary submitBtn">저장</button>
+
+  </form>
+
+  <script th:inline="javascript">
+
+    var actionForm = $("form"); //form 태그 객체
+
+    $(".submitBtn").click(function () {
+
+      if(!confirm("글을 등록 하시겠습니까?")){
+        return ;
+      }
+
+      actionForm
+              .attr("action", "/qna/register")
+              .attr("method", "post")
+              .submit();
+    });
+  </script>
+  </th:block>
+  </th:block>
+</div>
+</html>

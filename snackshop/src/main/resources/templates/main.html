@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        .carousel-inner > .item {
+            height: 350px;
+        }
+        .margin{
+            margin-bottom:30px;
+        }
+        .banner{
+            height: 300px;
+            position: absolute; top:0; left: 0;
+            width: 100%;
+            height: 90%;
+        }
+        .card-text{
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        a:hover{
+            text-decoration:none;
+        }
+        .center{
+            text-align:center;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <!--Testimonial Section index에 넣는 순간 로그인이 안되요(수정해야함)-->
+    <section id="testimonial" class="testimonial fix">
+
+<!--        <div id="time" class="time" >-->
+<!--           <H2 class="text-black">기부천사들</H2>-->
+<!--        </div>-->
+        <!-- 오버레이 걸리면 로그인 사용 불가 	<div class="overlay"></div>-->
+        <div class="container">
+            <div class="row">
+
+                <!-- 사진 슬라이드 하는 기능의  위에 쓰이는 구절입니다-->
+                <div class="main_testimonial col-sm-8 ml-sm-auto mr-sm-auto">
+                    <div class="head_title text-center roomy-100">
+                        <h2 class="text-black">기부천사들</h2>
+                    </div>
+                </div>
+
+                <!--사진 슬라이드 하는 기능 입니다 문제점!! 동적으로 이동시키면 사이즈가 동적으로 안움직인다 수정해야함-->
+                <div class="testimonial_slid text-center">
+                    <div class="testimonial_item">
+                        <img src="/assets/images/background/E.png" style="width: 85vw; height: 80vh; position: center">
+                        <div class="col-sm-10 mr-sm-auto ml-sm-auto">
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="text-black"> 목표 1: 빈곤 퇴치 </h5>
+
+                            <div class="test_authour m-top-30">
+                                <h5 class="text-black m-bottom-20">빈곤 퇴치는 단순한 자선 행위가 아니며, 정의로운 행동이자 인류 반영의 가능성을 열수 있는 핵심 열쇠 입니다.
+                                여전히 전 세계 인구의 절반이 빈곤 속에서 살고 있으며 식량과 식수 부족으로 매일 1천명이 사망하고 있습니다. 우리 모두가 함께하면 굶주립을 해결 할 수 있고 ,
+                                질병을 퇴치하고, 인류 모두가 생산적이고 부유한 삶을 영위할수 있는 세상을 만들어 낼수 있습니다
+                                </h5>
+                                <!--							fa fa-star(1줄에 별 하나)	별 갯수에 대해서 쓸게요-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial_item">
+                        <img src="/assets/images/background/T.jpg" style="width: 85vw; height: 80vh;">
+                        <div class="col-sm-10 mr-sm-auto ml-sm-auto">
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="text-black">목표2: 기아 종식  </h5>
+
+                            <div class="test_authour m-top-30">
+                                <h5 class="text-black m-bottom-20">전 세계적으로 기아는 사망의 주요 원인입니다. 지구는 무궁무진한 자원을 제공해 왔지만
+                                , 자원에 대한 불평등한 접근성과 비효율 적인 취금으로 인해 수 백만명을 인구가 영양 실도를 겪어 왔습니다. 만일 우리가
+                                    현대 기술과 공정한 분배 시스템으로 지속가능한 농업 활동을 발전시킨다면, 우리는 전 세계 인구수를 유지하면서 , 그 누구도 굶주림으로
+                                    고통 받지 않게 할수 있습니다
+                                </h5>
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial_item">
+                        <img src="/assets/images/background/Y.jpg" style="width: 85vw; height: 80vh;">
+                        <div class="col-sm-10 mr-sm-auto ml-sm-auto">
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="text-black">목표3: 건강한 삶과 웰빙 </h5>
+
+                            <div class="test_authour m-top-30">
+                                <h5 class="text-black m-bottom-20">지난 15년 동안 아동 사망자의 수는 절반으로 감소했습니다.
+                                이러한 사실은 적절히 대처하면 거의 모든 질병을 극복할 수 있다는 것을 보여줍니다.
+                                지금도 우리는 더 쉽게 예방할수 있는 질병에 천문학 적인 돈과 자원을 낭비하고 있습니다.
+                                전 세계의 건강한 삶을 위한 새로운 목표는 건강한 생활 양식, 예방 의학, 현대적이고 효율적인 건강 관리가
+                                모두에게 이뤄지도록 증진하는 것 입니다</h5>
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+<!--                                <i class="fa fa-star"></i>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial_item">
+                        <img src="/assets/images/background/U.jpg" style="width: 85vw; height: 80vh;">
+                        <div class="col-sm-10 mr-sm-auto ml-sm-auto">
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="text-black">목표4: 양질의 교육 </h5>
+                            <h5 class="text-black" >교육은 지성을 높일 뿐만 아니라 상상력을 열어주며 자기 존중의 토대를 구성합니다.
+                            번영과 기회의 세계를 열어주는 열쇠로, 모든 구성원이 발전해 나가는 건강한 사회에 기여할 수 있는 가능성을
+                            제공합니다.교육은 모든 인류에게 이점을 가져다 주므로 모두에게 균등하게 제공되어야 합니다.</h5>
+                        </div>
+                    </div>
+
+
+                    <div class="testimonial_item">
+                        <img src="/assets/images/background/I.png" style="width: 85vw; height: 80vh;">
+                        <div class="col-sm-10 mr-sm-auto ml-sm-auto">
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="text-black">목표5: 성 평등 </h5>
+                            <h5 class="text-black" >성 편견은 사회의 근간을 위협하도 우리 모두의 가치를 훼손하고 있습니다.
+                            단순히 인간의 권리에 대한 문제가 아니라 인간의 잠재 가능성을 무너뜨리는 중차대한 문제입니다.
+                            여성의 동등한 권리를 부정함으로써 인구 절반이 온전한 삶을 영위 할수 있는 가능성을 박탈 당하고 있습니다.
+                            여성의 정치적,경제적,사회적 평등을 인정할 때 온 인류가 더 나은 세계로 나아갈 수 있습니다.
+                            우리 모두가 함께하면 편견을 퇴치하고 모두가 존중받는 세상을 만들 수 있습니다.</h5>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <!--End off row-->
+        </div>
+        <!--End off container -->
+    </section>
+    <!--End off Testimonial section -->
+
+
+    <!--Home Sections-->
+
+    <section id="hello" class="home bg-mega">
+        <div class="container" >
+            <div class="blog_item m-top-20">
+            <img src="/assets/images/background/L.jpg" style="width: 25vw; height: 30vh; position:center" />
+            <img src="/assets/images/background/L1.jpg" style="width: 27vw; height: 30vh; position:center" />
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="main_home">
+                    <div class="home_text">
+
+                    </div>
+
+
+<!--                    <div id="carouselControls" class="carousel slide margin" data-ride="carousel">-->
+<!--                        <div class="carousel-inner">-->
+<!--                            <div class="carousel-item active item">-->
+<!--&lt;!&ndash;                                <img class="d-block w-100 banner" src="https:///web/upload/goodymall/kr/main/logo.png" alt="First slide">&ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
+                    <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
+                        <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색 결과'"></p>
+                    </div>
+
+                    <div class="row">
+                        <th:block th:each="item,status: ${items.getContent()}">
+                            <div class="col-md-4 margin">
+                                <div class="card">
+                                    <a th:href="'/item/' +${item.id}" class="text-dark">
+                                        <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="400">
+                                        <div class="card-body">
+                                            <h4 class="card-title">[[${item.itemNm}]]</h4>
+                                            <p class="card-text">[[${item.itemDetail}]]</p>
+                                            <h3 class="card-title text-danger">[[${item.price}]]원</h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+
+                </div>
+            </div>
+            <!--End off row-->
+        </div>
+        <!--End off container -->
+
+    </section>
+    <!--End off Home Sections-->
+
+
+    <div th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})" >
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item" th:classappend="${items.number eq 0}?'disabled':''">
+                <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
+                    <span aria-hidden='true'>이전</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${items.number eq page -1}?'active':''">
+                <a th:href="@{'/' +'?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
+            </li>
+
+            <li class="page-item" th:classappend="${items.number+1 ge items.totalPages}?'disabled':''">
+                <a th:href="@{'/' +'?=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number+1}}" aria-label='Next' class="page-link">
+                    <span aria-hidden='true'>다음</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+
+
+
+<!--    &lt;!&ndash;Pricing Section&ndash;&gt;-->
+<!--    <section id="pricing" class="pricing lightbg">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+
+<!--                <div class="main_pricing">-->
+<!--                    <div class="col-md-8 ml-md-auto mr-md-auto">-->
+<!--                        <div class="head_title text-center">-->
+<!--                            <h2>OUR PRICING</h2>-->
+<!--                            <div class="separator_auto"></div>-->
+<!--                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                </th:block>-->
+<!--            </div>-->
+
+
+
+<!--                <br />-->
+<!--                <br />-->
+<!--                <br />-->
+<!--                <hr />-->
+<!--                <br />-->
+<!--                <br />-->
+<!--                <br />-->
+<!--                <div class="container">-->
+<!--                    <div class="row">-->
+<!--                        <div class="skill_bottom_content text-center">-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="skill_bottom_item">-->
+<!--                                    <h2 class="statistic-counter">3468</h2>-->
+<!--                                    <div class="separator_small"></div>-->
+<!--                                    <h5><em>Projects Finished</em></h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="skill_bottom_item">-->
+<!--                                    <h2 class="statistic-counter">4638</h2>-->
+<!--                                    <div class="separator_small"></div>-->
+<!--                                    <h5><em>Happy Clients</em></h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="skill_bottom_item">-->
+<!--                                    <h2 class="statistic-counter">3468</h2>-->
+<!--                                    <div class="separator_small"></div>-->
+<!--                                    <h5><em>Hours of work</em></h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="skill_bottom_item">-->
+<!--                                    <h2 class="statistic-counter">3468</h2>-->
+<!--                                    <div class="separator_small"></div>-->
+<!--                                    <h5><em>Cup of coffee</em></h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash;End off row&ndash;&gt;-->
+<!--                </div>-->
+<!--                &lt;!&ndash;End off container &ndash;&gt;-->
+<!--            </section>-->
+<!--            &lt;!&ndash;End off Skill section &ndash;&gt;-->
+
+
+
+
+
+
+
+
+</div>
+</html>

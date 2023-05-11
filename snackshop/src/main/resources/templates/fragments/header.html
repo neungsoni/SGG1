@@ -1,0 +1,254 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--<![endif]-->
+<div th:fragment="header">
+    <div class="culmn">
+        <!--Home page style-->
+
+        <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white no-background bootsnav" style="background-color: #0b0b0b">
+        <!-- Start Top Search -->
+            <div class="top-search">
+                <div class="container">
+<!--                    <div class="input-group">-->
+<!--                        <span class="input-group-addon"><i class="fa fa-search"></i></span>-->
+<!--                        <input type="text" class="form-control" placeholder="Search">-->
+<!--                        <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>-->
+<!--                    </div>-->
+                    <!--검색창 X표시 수정해야함-->
+                    <form  th:action="@{/}" method="get">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input name="searchQuery" class="form-control"
+                                   type="text" placeholder="Search">
+                            <!--<button class="btn btn-outline-success my-2 my-sm-0"
+                                    type="submit">Search</button>-->
+                            <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        <!-- End Top Search -->
+
+            <div class="container">
+            <!-- Start Atribute Navigation -->
+                <div class="attr-nav">
+                    <ul>
+                        <li class="dropdown">
+                            <ul class="dropdown-menu cart-list">
+                                <li>
+                                    <a href="#" class="photo"><img src="/assets/images/thumb01.jpg" class="cart-thumb" alt="" /></a>
+                                    <h6><a href="#">Delica omtantur </a></h6>
+                                    <p class="m-top-10">2x - <span class="price">$99.99</span></p>
+                                </li>
+                                <li>
+                                    <a href="#" class="photo"><img src="/assets/images/thumb01.jpg" class="cart-thumb" alt="" /></a>
+                                    <h6><a href="#">Delica omtantur </a></h6>
+                                    <p class="m-top-10">2x - <span class="price">$99.99</span></p>
+                                </li>
+                                <li>
+                                    <a href="#" class="photo"><img src="/assets/images/thumb01.jpg" class="cart-thumb" alt="" /></a>
+                                    <h6><a href="#">Delica omtantur </a></h6>
+                                    <p class="m-top-10">2x - <span class="price">$99.99</span></p>
+                                </li>
+                                <!---- More List ---->
+                                <!--이곳에 카트 토탈에 관련된 자료를 첨부 해보자  -->
+                                <li class="total">
+                                    <span class="pull-right"><strong>Total</strong>: $0.00</span>
+                                    <a href="#" class="btn btn-cart">Cart</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                        <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
+                    </ul>
+                </div>
+                <!-- End Atribute Navigation -->
+
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+
+                    <a class="navbar-brand" href="/">
+
+                        <img src="/assets/images/Q.png" class="logo logo-display m-top-10" alt="">
+                        <img src="/assets/images/logo.jpg" class="logo logo-scrolled" alt="">
+
+                    </a>
+                </div>
+                <!-- End Header Navigation -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                            <a class="nav-link"  href="/admin/item/new">사용 방법</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                            <a class="nav-link"  href="/admin/items">기부 내역</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link"  href="/cart">기부 리더보드</a>
+
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAuthenticated()">
+                            <a class="nav-link"  href="/orders">상세 설정</a>
+                        </li>
+<!--                        <li class="nav-item"  sec:authorize="isAuthenticated()">-->
+<!--                            <a class="nav-link"  href="/boards">문의하기</a>-->
+<!--                        </li>-->
+                        <li class="nav-item"  sec:authorize="isAuthenticated()">
+                            <a class="nav-link"  href="/qna/list">자주 하는 질문</a>
+                        </li>
+
+
+                        <li class="nav-item"  sec:authorize="isAnonymous()">
+                            <a class="nav-link"  href="/members/login">로그인</a>
+                        </li>
+<!--                        <li class="nav-item" sec:authorize="isAuthenticated()">-->
+<!--                            <a class="nav-link"  href="/members/read">회원정보</a>-->
+<!--                        </li>-->
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link"  href="/members/logout">로그아웃</a>
+                        </li>
+                    </ul>
+
+<!--                    <form class="form-inline my-2 my-lg-0" th:action="@{/}"method="get">-->
+<!--                        <input name="searchQuery" class="form-control mr-sm-2"-->
+<!--                               type="search" placeholder="Search" aria-label="Search">-->
+<!--                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--                    </form>-->
+<!--                    여기는 네비 바에 뜨는 검색 기능.... 기능이 2개가 있음으로 제거 -->
+
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+
+
+            <!-- Start Side Menu -->
+            <div class="side">
+                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+                <div class="widget">
+                    <h6 class="title">씨가지</h6>
+                    <ul class="link">
+                        <li><a href="#">소식</a></li>
+                        <li><a href="#">목표</a></li>
+                        <li><a href="#">★</a></li>
+                        <li><a href="#">친구들</a></li>
+                        <li><a href="/members/new">가입하기</a></li>
+                        <li><a href="https://msf.or.kr/" target="_blank" class="btn btn-primary m-top-20">국경없는 이사회</a></li>
+                        <li><a href="https://www.goodneighbors.kr/campaign/girl23" target="_blank" class="btn btn-primary m-top-20">국내 여아지원 캠페인</a></li>
+                        <li><a href="https://www.incubating.or.kr/" target="_blank" class="btn btn-primary m-top-20">인큐베이팅 사이트</a></li>
+                        <li><a href=" https://help.rescue.or.kr/ukraine1/?utm_source=google&utm_medium=sa&utm_campaign=ukraine1&utm_content=campaign&utm_term=%7Bkeyword%7D&gclid=Cj0KCQjw6cKiBhD5ARIsAKXUdyYLZby2ZNWAvL4oS9MC1fgaJjHSP4tjY4_BOJqNmPdBLHxLSysEo8EaAhKqEALw_wcB" target="_blank" class="btn btn-primary m-top-20">우크라이나 지원</a></li>
+
+                    </ul>
+                </div>
+            </div>
+<!--            <div class="home_btns m-top-30">-->
+
+<!--                <a href="https://msf.or.kr/" target="_blank" class="btn btn-primary m-top-20">국경없는 이사회</a>-->
+<!--                <a href="https://www.goodneighbors.kr/campaign/girl23" target="_blank" class="btn btn-primary m-top-20">국내 여아지원 캠페인</a>-->
+<!--            </div>-->
+            <!-- End Side Menu -->
+        </nav>
+<!--        &lt;!&ndash;Testimonial Section index에 넣는 순간 로그인이 안되요(수정해야함)&ndash;&gt;-->
+<!--        <section id="testimonial" class="testimonial fix">-->
+<!--            &lt;!&ndash; 오버레이 걸리면 로그인 사용 불가 	<div class="overlay"></div>&ndash;&gt;-->
+<!--            <div class="container">-->
+<!--                <div class="row">-->
+
+<!--                    &lt;!&ndash; 사진 슬라이드 하는 기능의  위에 쓰이는 구절입니다&ndash;&gt;-->
+<!--                    <div class="main_testimonial col-sm-8 ml-sm-auto mr-sm-auto">-->
+<!--                        <div class="head_title text-center roomy-100">-->
+<!--                            <h2 class="text-black">인기 상품</h2>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash;사진 슬라이드 하는 기능 입니다 문제점!! 동적으로 이동시키면 사이즈가 동적으로 안움직인다 수정해야함&ndash;&gt;-->
+<!--                    <div class="testimonial_slid text-center">-->
+<!--                        <div class="testimonial_item">-->
+<!--                            <img src="/assets/images/background/main_img1.jpg" style="width: 35vw; height: 30vh; position: center">-->
+<!--                            <div class="col-sm-10 mr-sm-auto ml-sm-auto">-->
+<!--                                <p class="text-black"> 달콤한 선물 세트 추천!-->
+<!--                                    비스켓,파이,스낵,사탕,초콜릿부터~</p>-->
+
+<!--                                <div class="test_authour m-top-30">-->
+<!--                                    <h6 class="text-black m-bottom-20">금주의 인기 상품 1위</h6>-->
+<!--                                    &lt;!&ndash;							fa fa-star(1줄에 별 하나)	별 갯수에 대해서 쓸게요&ndash;&gt;-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="testimonial_item">-->
+<!--                            <img src="/assets/images/background/main_img02.jpg" style="width: 35vw; height: 30vh;">-->
+<!--                            <div class="col-sm-10 mr-sm-auto ml-sm-auto">-->
+<!--                                <p class="text-black"> 생일 선물은 랜덤? 과자상자</p>-->
+
+<!--                                <div class="test_authour m-top-30">-->
+<!--                                    <h6 class="text-black m-bottom-20">금주의 인기 상품 2위</h6>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="testimonial_item">-->
+<!--                            <img src="/assets/images/background/main_img03.jpg" style="width: 35vw; height: 30vh;">-->
+<!--                            <div class="col-sm-10 mr-sm-auto ml-sm-auto">-->
+<!--                                <p class="text-black">생일선물은 신상품 공개 </p>-->
+
+<!--                                <div class="test_authour m-top-30">-->
+<!--                                    <h6 class="text-black m-bottom-20">금주의 인기 상품 3위</h6>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                    <i class="fa fa-star"></i>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="testimonial_item">-->
+<!--                            <img src="/assets/images/background/main_rolling1_1.jpg" style="width: 35vw; height: 30vh;">-->
+<!--                            <div class="col-sm-10 mr-sm-auto ml-sm-auto">-->
+<!--                                <p class="text-black" >8만원 이상 구매시 무료배송 오후 2시 이전에 구매하시면 당일출고가 가능합니다 </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="testimonial_item">-->
+<!--                            <img src="/assets/images/background/main_rolling1_2.jpg" style="width: 35vw; height: 30vh;">-->
+<!--                            <div class="col-sm-10 mr-sm-auto ml-sm-auto">-->
+<!--                                <p class="text-black" >과자선물세트 대량으로 주문이 가능 </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--                &lt;!&ndash;End off row&ndash;&gt;-->
+<!--            </div>-->
+<!--            &lt;!&ndash;End off container &ndash;&gt;-->
+<!--        </section>-->
+<!--        &lt;!&ndash;End off Testimonial section &ndash;&gt;-->
+
+
+
+    </div>
+</div>
+
+</html>

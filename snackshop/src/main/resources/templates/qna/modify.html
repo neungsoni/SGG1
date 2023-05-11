@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+    .error {
+      color: #bd2130;
+    }
+  </style>
+</th:block>
+
+<div layout:fragment="content">
+
+  <h1 class="mt-4">게시물 수정/삭제</h1>
+
+  <form action="/qna/modify" method="post">
+
+    <!--페이지번호-->
+    <input type="hidden" name="page" th:value="${requestDTO.page}">
+    <input type="hidden" name="type" th:value="${requestDTO.type}">
+    <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
+
+    <div class="form-group">
+      <label>번호</label>
+      <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>제목</label>
+      <input type="text" class="form-control" name="title" th:value="${dto.title}">
+    </div>
+
+    <div class="form-group">
+      <label>내용</label>
+      <textarea class="form-control" rows="5" name="content">[[${dto.content}]]</textarea>
+    </div>
+
+    <div class="form-group">
+      <label>작성자</label>
+      <input type="text" class="form-control" name="writer" th:value="${dto.writer}" readonly>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </div>
+
+  </form>
+
+  <button type="button" class="btn btn-primary modifyBtn">수정하기</button>
+
+  <button type="button" class="btn btn-danger removeBtn">삭제하기</button>
+
+  <button type="button" class="btn btn-info listBtn">목록으로</button>
+
+
+  <script th:inline="javascript">
+
+    var actionForm = $("form"); //form 태그 객체
+
+    $(".removeBtn").click(function () {
+
+      if (!confirm("삭제 하시겠습니까?")) {
+        return;
+      }
+
+      actionForm
+              .attr("action", "/qna/remove")
+              .attr("method", "post")
+      actionForm.submit();
+    });
+
+    $(".modifyBtn").click(function () {
+
+      if (!confirm("수정 하시겠습니까?")) {
+        return;
+      }
+
+      actionForm
+              .attr("action", "/qna/modify")
+              .attr("method", "post")
+      actionForm.submit();
+    });
+
+    $(".listBtn").click(function () {
+
+      //var pageInfo = $("input[name='page']");
+      var page = $("input[name='page']");
+      var type = $("input[name='type']");
+      var keyword = $("input[name='keyword']");
+
+      actionForm.empty(); //form 태그의 모든 내용을 지우고
+
+      actionForm.append(page);
+      actionForm.append(type);
+      actionForm.append(keyword);
+
+
+      actionForm
+              .attr("action", "/qna/list")
+              .attr("method", "get");
+
+      actionForm.submit();
+
+    })
+  </script>
+  </th:block>
+  </th:block>
+</div>
+</html>

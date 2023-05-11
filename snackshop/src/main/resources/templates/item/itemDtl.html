@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    $(document).ready(function(){
+
+      calculateToalPrice();
+
+      $("#count").change( function(){
+        calculateToalPrice();
+      });
+    });
+
+    function calculateToalPrice(){ /* 현재 주문할 수량과 상품 한 개당 가격을 곱해서 결제 금액을 구해주는 함수 */
+      var count = $("#count").val();
+      var price = $("#price").val();
+      var totalPrice = price*count;
+      $("#totalPrice").html(totalPrice + '원');
+    }
+
+    /* 추가함 */
+    function order(){
+      var token = $("meta[name='_csrf']").attr("content");
+      var header = $("meta[name='_csrf_header']").attr("content");
+
+      var url = "/order";
+      var paramData = {
+        itemId : $("#itemId").val(),
+        count : $("#count").val()
+      };
+
+      var param = JSON.stringify(paramData);
+
+      $.ajax({
+        url      : url,
+        type     : "POST",
+        contentType : "application/json",
+        data     : param,
+        beforeSend : function(xhr){
+          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+          xhr.setRequestHeader(header, token);
+        },
+        dataType : "json",
+        cache   : false,
+        success  : function(result, status){
+          alert("후원해 주셔서 감사합니다.");
+          location.href='/';
+        },
+        error : function(jqXHR, status, error){
+
+          if(jqXHR.status == '401'){
+            alert('로그인 후 이용해주세요');
+            location.href='/members/login';
+          } else{
+            alert(jqXHR.responseText);
+          }
+
+        }
+      });
+    }
+    // 장바구니 담기 호출 구현하기 시작
+    function addCart(){
+      var token = $("meta[name='_csrf']").attr("content");
+      var header = $("meta[name='_csrf_header']").attr("content");
+
+      var url = "/cart";
+      var paramData = {
+        itemId : $("#itemId").val(),
+        count : $("#count").val()
+      };
+
+      var param = JSON.stringify(paramData);
+
+      $.ajax({
+        url      : url,
+        type     : "POST",
+        contentType : "application/json",
+        data     : param,
+        beforeSend : function(xhr){
+          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+          xhr.setRequestHeader(header, token);
+        },
+        dataType : "json",
+        cache   : false,
+        success  : function(result, status){
+          alert("기부 리더보드에 정보를 담았습니다.");
+          location.href='/';
+        },
+        error : function(jqXHR, status, error){
+
+          if(jqXHR.status == '401'){
+            alert('로그인 후 이용해주세요');
+            location.href='/members/login';
+          } else{
+            alert(jqXHR.responseText);
+          }
+
+        }
+      });
+    }
+
+  </script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+    .mgb-15{
+      margin-bottom:15px;
+    }
+    .mgt-30{
+      margin-top:30px;
+    }
+    .mgt-50{
+      margin-top:50px;
+    }
+    .repImgDiv{
+      margin-right:15px;
+      height:auto;
+      width:50%;
+    }
+    .repImg{
+      width:100%;
+      height:400px;
+    }
+    .wd50{
+      height:auto;
+      width:50%;
+    }
+
+    .row{
+      margin-top: 100px;
+    }
+
+    .d-flex{
+      margin-top: 100px;
+    }
+
+    #myform fieldset{
+      display: inline-block;
+      direction: rtl;
+      border:0;
+    }
+    #myform fieldset legend{
+      text-align: right;
+    }
+    #myform input[type=radio]{
+      display: none;
+    }
+    #myform label{
+      font-size: 3em;
+      color: transparent;
+      text-shadow: 0 0 0 #f0f0f0;
+    }
+    #myform label:hover{
+      text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+    }
+    #myform label:hover ~ label{
+      text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+    }
+    #myform input[type=radio]:checked ~ label{
+      text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+    }
+    #reviewContents {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: solid 1.5px #D3D3D3;
+      border-radius: 5px;
+      font-size: 16px;
+      resize: none;
+    }
+
+
+
+  </style>
+</th:block>
+
+<div layout:fragment="content" style="margin-left:25%;margin-right:25%">
+
+
+
+  <input type="hidden" id="itemId" th:value="${item.id}">
+
+  <div class="d-flex">
+    <div class="repImgDiv">
+      <img th:src="${item.itemImgDtoList[0].imgUrl}" class = "rounded repImg" th:alt="${item.itemNm}">
+    </div>
+    <div class="wd50">
+            <span th:if="${item.itemSellStatus == T(com.shop.snackshop.constant.ItemSellStatus).SELL}" class="badge badge-primary mgb-15">
+                기부 진행 중
+            </span>
+      <span th:unless="${item.itemSellStatus == T(com.shop.snackshop.constant.ItemSellStatus).SELL}" class="badge btn-danger mgb-15" >
+                품절
+            </span>
+      <div class="h4" th:text="${item.itemNm}"></div>
+      <hr class="my-4">
+
+      <div class="text-right">
+        <div class="h4 text-danger text-left">
+          <input type="hidden" th:value="${item.price}" id="price" name="price">
+          <span th:text="${item.price}"></span>원
+        </div>
+        <div class="input-group w-50">
+          <div class="input-group-prepend">
+            <span class="input-group-text">후원 인원</span>
+          </div>
+          <input type="number" name="count" id="count" class="form-control" value="1" min="1">
+        </div>
+      </div>
+      <hr class="my-4">
+
+      <div class="text-right mgt-50">
+        <h5>결제 금액</h5>
+        <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
+      </div>
+      <div th:if="${item.itemSellStatus == T(com.shop.snackshop.constant.ItemSellStatus).SELL}" class="text-right">
+        <button type="button" class="btn btn-light border border-primary btn-lg" onclick="addCart()" >기부 리더보드</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="order()">기부하기</button>
+<!---------------------------------------------------------- onclick이 자꾸 빠진다 확인 해야될 듯    ------------------>
+      </div>
+      <div th:unless="${item.itemSellStatus == T(com.shop.snackshop.constant.ItemSellStatus).SELL}" class="text-right">
+        <button type="button" class="btn btn-danger btn-lg">품절</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbotron jumbotron-fluid mgt-30">
+    <div class="container">
+      <h4 class="display-5">상품 상세 설명</h4>
+      <hr class="my-4">
+      <p class="lead" th:text="${item.itemDetail}"></p>
+    </div>
+  </div>
+
+  <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">
+    <!-- 등록된 상품 이미지를 반복 구문을 통해 보여줌,  실제 쇼핑몰에서는 상품에 대한 정보를 예쁘게 이미지로 만들어 보여줌 -->
+    <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}" class="rounded mgb-15" width="800">
+  </div>
+
+  <!-- 댓글 관련 추가! -->
+  <div>
+    <div class="mt-4">
+      <!--별점추가-->
+      <h5>
+        <span class="badge badge-secondary starpoint">별점[[${item.starPoint}]]</span>
+      </h5>
+
+      <h5>
+        <span class="badge badge-info addReply">Add Reply</span>
+      </h5>
+      <h5>
+        <span class="badge badge-secondary replyCount">Reply Count[[${item.replyCount}]]</span>
+      </h5>
+    </div>
+
+    <div class="list-group replyList">
+    </div>
+  </div>
+
+  <!-- 모달 추가! -->
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Modal titles
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                &times;
+              </span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!--평점추가-->
+          <link href="/assets/css/star.css" rel="stylesheet"/>
+
+          <form class="mb-3" name="myform" id="myform" method="post">
+            <fieldset>
+              <span class="text-bold">별점을 선택해주세요</span>
+              <input type="radio" name="radio" value="5" id="rate1"><label
+                    for="rate1">★</label>
+              <input type="radio" name="radio" value="4" id="rate2"><label
+                    for="rate2">★</label>
+              <input type="radio" name="radio" value="3" id="rate3"><label
+                    for="rate3">★</label>
+              <input type="radio" name="radio" value="2" id="rate4"><label
+                    for="rate4">★</label>
+              <input type="radio" name="radio" value="1" id="rate5"><label
+                    for="rate5">★</label>
+            </fieldset>
+
+          </form>
+          <div class="form-group">
+		<textarea class="form-group" type="text" id="replyText" name="replyText"
+                  placeholder="좋은 리뷰평을 남겨주시면 큰 힘이 됩니다!!!"></textarea>
+          </div>
+
+          <div class="form-group">
+            <input class="form-control" type="text" name="replyer" placeholder="Replyer">
+            <input type="hidden" name="rno">
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger replyRemove">Remove</button>
+            <button type="button" class="btn btn-warning replyModify">Modify</button>
+            <button type="button" class="btn btn-primary replySave">Save</button>
+            <button type="button" class="btn btn-outline-secondary replyClose" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 댓글 관련 추가! -->
+  <script th:inline="javascript">
+    $(document).ready(function (){
+      var id=[[${item.id}]];
+
+      var listGroup = $(".replyList");
+
+      var modal = $('.modal');
+
+      $(".replyList").on("click", ".card-body", function () {
+        var rno = $(this).data("rno");
+
+        $("textarea[name='replyText']").val( $(this).find('.card-title').html());
+        $("input[name='replyer']").val( $(this).find('.card-subtitle').html());
+        $("input[name='rno']").val(rno);
+
+        $(".modal-footer .btn").hide();
+        $(".replyRemove, .replyModify, .replyClose").show()
+        modal.modal('show');
+
+      });
+
+
+      $(".addReply").click(function () {
+        modal.modal('show');
+        $('textarea[name="replyText"]').val('');
+        $('input[name="replyer"]').val('');
+
+        $(".modal-footer .btn").hide();
+        $(".replySave, .replyClose").show();
+
+      });
+      $(".replyRemove").on("click", function () {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var  rno = $("input[name='rno']").val();
+
+        $.ajax({
+          url: '/replies/' + rno,
+          beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader(header, token);
+          },
+          method: 'delete',
+
+
+          success: function (result) {
+            console.log("result: " + result);
+            if(result === 'success'){
+              alert("댓글이 삭제되었습니다.");
+              modal.modal('hide');
+              loadJSONDate();
+            }
+
+          }
+        })
+      });
+
+      $(".replyModify").click(function () {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var rno = $("input[name='rno']").val();
+
+        var reply = {
+          rno : rno,
+          id : id,
+          text: $('textarea[name="replyText"]').val(),
+          replyer: $('input[name="replyer"]').val()
+        }
+        console.log(reply);
+
+        $.ajax({
+          url: '/replies/' + rno,
+          method: 'put',
+          beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader(header, token);
+          },
+          data: JSON.stringify(reply),
+
+          contentType: 'application/json; charset=utf-8',
+          success: function (result) {
+            console.log("RESULT: " +result);
+
+            if (result === 'success') {
+              alert("댓글이 수정되었습니다.");
+              modal.modal('hide');
+              loadJSONDate();
+            }
+          }
+
+        });
+
+      });
+
+      $(".replySave").click(function () {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var reply = {
+          id: id,
+          text: $('textarea[name="replyText"]').val(),
+          replyer: $('input[name="replyer"]').val(),
+
+          /*grade은 평점 이거 추가*/
+
+          grade:   $('input[name="radio"]:checked').val()
+
+        }
+
+        console.log(reply);
+        $.ajax({
+          url: '/replies/',
+          method: 'post',
+          data: JSON.stringify(reply),
+          beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader(header, token);
+          },
+          contentType: 'application/json; charset=utf-8',
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
+
+            var newRno = parseInt(data);
+
+            alert(newRno + "번 댓글이 등록되었습니다.")
+            modal.modal('hide');
+            loadJSONDate();
+
+          }
+        })
+
+
+      });
+
+
+      function formatTime(str){
+        var date = new Date(str);
+
+        return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' +
+                date.getMinutes();
+      }
+
+      function loadJSONDate(){
+        $.getJSON('/replies/item/' + id, function (arr) {
+          console.log(arr);
+
+          var str = "";
+
+          $('.replyCount').html(" Reply Count   " + arr.length);
+
+          $.each(arr, function (idx, reply) {
+            console.log(reply);
+            str += '    <div class="card-body" data-rno="' + reply.rno+'"><b>'+reply.rno +'</b>';
+            str +='     <h5 class="card-title">' +reply.text+'</h5>';
+            str +='     <h6 class="card-subtitle mb-2 text-muted">' +reply.replyer+'</h6>';
+            str +='     <p class="card-text">' +formatTime(reply.regDate)+'</p>';
+            str +='     </div>';
+
+          })
+          listGroup.html(str);
+        });
+      }
+
+      $(".replyCount").click(function () {
+        $.getJSON('/replies/item/' + id, function (arr) {
+
+          console.log(arr)
+          loadJSONDate();
+        })
+      })
+
+
+
+    });
+  </script>
+
+</div>
+
+
+</div>
+
+</html>
